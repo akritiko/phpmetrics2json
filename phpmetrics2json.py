@@ -44,16 +44,22 @@ def phpmetrics2json():
         ["Warning", "Violations", ""],
         ["Information", "Violations", ""]
     ];
-    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value'],dtype=float) # //XXX: dtype=float is deprecated
+    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value']) # //XXX: dtype=float is deprecated
     with open('phpmetrics.txt') as f:
         lines = f.readlines() # list containing lines of file
         for line in lines:
-            line = line.strip() # remove leading/trailing white spaces
+            line = line.strip() # remove leading/trailing white spaces    
             for index, row in df.iterrows():
-                if re.search(r"\b"+row['Metric']+r"\b",line) and row['Value'] == "": # add value only if there is not one yet.
-                    s_nums = re.findall(r"[-+]?\d*\.\d+|\d+", str(line))
-                    logging.info(row['Metric'] + ": " + s_nums[0]) # logging
-                    row['Value'] = s_nums[0]
+                if row['Metric'] == "Average defects by class (Kan)":
+                    if re.search(r"\b"+"(Kan)"+r"\b",line) and row['Value'] == "": # add value only if there is not one yet.
+                        s_nums = re.findall(r"[-+]?\d*\.\d+|\d+", str(line))
+                        logging.info(row['Metric'] + ": " + s_nums[0]) # logging
+                        row['Value'] = s_nums[0]
+                else:
+                    if re.search(r"\b"+row['Metric']+r"\b",line) and row['Value'] == "": # add value only if there is not one yet.
+                        s_nums = re.findall(r"[-+]?\d*\.\d+|\d+", str(line))
+                        logging.info(row['Metric'] + ": " + s_nums[0]) # logging
+                        row['Value'] = s_nums[0]
     df.to_json (r'phpmetrics.json', orient='records') # export to JSON with each item to reflect a tuple [Metric, Category, Value]
 
 def main(args):
