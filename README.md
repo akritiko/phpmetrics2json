@@ -1,12 +1,12 @@
 # phpmetrics2json
 
-A script that transforms PHPMetrics console output to .JSON format.
+A script that creates a .JSON file from the console output of PHPMetrics. Originally PHPMetrics creates a human readable html report but the main metrics are given only in console during runtime. You can find more on PHPMetrics output on the [official documentation](https://github.com/phpmetrics/PhpMetrics).
 
 ## Dependencies
 
 - [PHPMetrics](https://github.com/phpmetrics/PhpMetrics)
 
-__NOTE:__ We recommend that you install PHPMetrics via composer. Please don't forget to add composer bin dir to your OS'es environmental variables.
+__NOTE:__ We recommend that you install PHPMetrics via composer either on Windows or Linux systems. Please don't forget to add composer bin directory to your OS'es environmental variables.
 
 ## How to run the script
 
