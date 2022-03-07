@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import json
+import logging
 import pandas as pd
 import numpy as np
 
@@ -51,23 +52,27 @@ def phpmetrics2json():
             for index, row in df.iterrows():
                 if re.search(r"\b"+row['Metric']+r"\b",line) and row['Value'] == "":
                     s_nums = re.findall(r"[-+]?\d*\.\d+|\d+", str(line))
-                    print(row['Metric'] + " | " + s_nums[0])
+                    logging.info(row['Metric'] + ": " + s_nums[0])
                     row['Value'] = s_nums[0]
     df.to_json (r'phpmetrics.json', orient='records')
 
 def main(args):
     """ Main function """
+    logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO, format='%(asctime)s [ %(levelname)s ] %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
     repo_dir_name = sys.argv[1]
     from sys import platform
     if platform == "linux" or platform == "linux2":
-        print("this is linux")
+        logging.info("Linux operating system detected.") 
         os.system('phpmetrics --report-html=myreport ./{0} >> phpmetrics.txt'.format(repo_dir_name))
         phpmetrics2json()
         os.system('rm phpmetrics.txt')
     elif platform == "darwin":
-        print("this is OSX")
+        logging.info("OSX operating system detected.") 
     elif platform == "win32":
-        print("this is win")
+        logging.info("Windows operating system detected.") 
+        os.system('phpmetrics --report-html=myreport ./{0} > phpmetrics.txt'.format(repo_dir_name))
+        phpmetrics2json()
+        os.system('del "phpmetrics.txt"')
 
 if __name__ == "__main__":
     main(sys.argv[1:])
