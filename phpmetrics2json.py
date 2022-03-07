@@ -44,7 +44,7 @@ def phpmetrics2json():
         ["Warning", "Violations", ""],
         ["Information", "Violations", ""]
     ];
-    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value']) # //XXX: dtype=float is deprecated
+    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value']) 
     with open('phpmetrics.txt') as f:
         lines = f.readlines() # list containing lines of file
         for line in lines:
