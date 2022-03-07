@@ -60,19 +60,24 @@ def main(args):
     """ Main function. """
     logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO, format='%(asctime)s [ %(levelname)s ] %(message)s', datefmt='%d/%m/%Y %H:%M:%S') # init logging
     repo_dir_name = sys.argv[1]
-    from sys import platform # detect OS
-    if platform == "linux" or platform == "linux2":
-        logging.info("Linux operating system detected.") 
-        os.system('phpmetrics --report-html=myreport ./{0} >> phpmetrics.txt'.format(repo_dir_name))
-        phpmetrics2json()
-        os.system('rm phpmetrics.txt')
-    elif platform == "darwin":
-        logging.info("OSX operating system detected.") 
-    elif platform == "win32":
-        logging.info("Windows operating system detected.") 
-        os.system('phpmetrics --report-html=myreport ./{0} > phpmetrics.txt'.format(repo_dir_name))
-        phpmetrics2json()
-        os.system('del "phpmetrics.txt"')
+    if os.path.isdir(repo_dir_name):
+        from sys import platform # detect OS
+        if platform == "linux" or platform == "linux2":
+            logging.info("Linux operating system detected.") 
+            os.system('phpmetrics --report-html=myreport ./{0} >> phpmetrics.txt'.format(repo_dir_name))
+            phpmetrics2json()
+            os.system('rm phpmetrics.txt')
+        elif platform == "darwin":
+            logging.info("OSX operating system detected.") 
+        elif platform == "win32":
+            logging.info("Windows operating system detected.") 
+            os.system('phpmetrics --report-html=myreport ./{0} > phpmetrics.txt'.format(repo_dir_name))
+            phpmetrics2json()
+            os.system('del "phpmetrics.txt"')
+    else:
+        logging.error(repo_dir_name + ": the directory does not seem to exist.") 
+        print(repo_dir_name + ": the directory does not seem to exist.")
+            
 
 if __name__ == "__main__":
     main(sys.argv[1:])
