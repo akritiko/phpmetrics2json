@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 def phpmetrics2json():
-    """ Transforms phpmetrics console output to json """
+    """ Transforms phpmetrics console output to JSON format. """
     phpmetrics = [
         ["Lines of code", "LOC", ""],
         ["Logical lines of code", "LOC", ""],
@@ -44,23 +44,23 @@ def phpmetrics2json():
         ["Warning", "Violations", ""],
         ["Information", "Violations", ""]
     ];
-    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value'],dtype=float)
+    df = pd.DataFrame(phpmetrics, columns=['Metric','Category', 'Value'],dtype=float) # //XXX: dtype=float is deprecated
     with open('phpmetrics.txt') as f:
         lines = f.readlines() # list containing lines of file
         for line in lines:
             line = line.strip() # remove leading/trailing white spaces
             for index, row in df.iterrows():
-                if re.search(r"\b"+row['Metric']+r"\b",line) and row['Value'] == "":
+                if re.search(r"\b"+row['Metric']+r"\b",line) and row['Value'] == "": # add value only if there is not one yet.
                     s_nums = re.findall(r"[-+]?\d*\.\d+|\d+", str(line))
-                    logging.info(row['Metric'] + ": " + s_nums[0])
+                    logging.info(row['Metric'] + ": " + s_nums[0]) # logging
                     row['Value'] = s_nums[0]
-    df.to_json (r'phpmetrics.json', orient='records')
+    df.to_json (r'phpmetrics.json', orient='records') # export to JSON with each item to reflect a tuple [Metric, Category, Value]
 
 def main(args):
-    """ Main function """
-    logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO, format='%(asctime)s [ %(levelname)s ] %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+    """ Main function. """
+    logging.basicConfig(filename='app.log', filemode='w', level=logging.INFO, format='%(asctime)s [ %(levelname)s ] %(message)s', datefmt='%d/%m/%Y %H:%M:%S') # init logging
     repo_dir_name = sys.argv[1]
-    from sys import platform
+    from sys import platform # detect OS
     if platform == "linux" or platform == "linux2":
         logging.info("Linux operating system detected.") 
         os.system('phpmetrics --report-html=myreport ./{0} >> phpmetrics.txt'.format(repo_dir_name))
