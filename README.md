@@ -11,10 +11,16 @@ __NOTE:__ We recommend that you install PHPMetrics via composer. Please don't fo
 ## How to run the script
 
 Linux:
-```python3 phpmetrics2json <FOLDER_PATH>'''
+
+```python
+python3 phpmetrics2json <FOLDER_PATH>
+```
 
 Windows:
-```python phpmetrics2json <FOLDER_PATH>'''
+
+```python 
+python phpmetrics2json <FOLDER_PATH>
+```
 
 ## Output
 
