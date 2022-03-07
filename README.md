@@ -5,7 +5,8 @@ A script that transforms PHPMetrics console output to .JSON format.
 ## Dependencies
 
 - [PHPMetrics](https://github.com/phpmetrics/PhpMetrics)
-NOTE: We recommend that you install PHPMetrics via composer. Please don't forget to add composer bin dir to your OS'es environmental variables.
+
+__NOTE:__ We recommend that you install PHPMetrics via composer. Please don't forget to add composer bin dir to your OS'es environmental variables.
 
 ## How to run the script
 
